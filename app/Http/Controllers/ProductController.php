@@ -98,6 +98,7 @@ class ProductController extends Controller
     public function destroy(Request $request, $id)
     {
         $data = app('firebase.firestore')->database()->collection('products')->document($request->id_delete)->delete();
+        return redirect()->route('product.index');
     }
 
     public function getProduk(Request $request)
