@@ -225,13 +225,13 @@
                             </div> --}}
                             <div
                                 class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
-                                <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Product</span></a>
+                                <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Products</span></a>
                             </div>
 
-                            {{-- <div
-                                class="nav-item {{Route::is('users.index') || Route::is('users.create') || Route::is('users.edit') || Route::is('users.destroy') ? 'active' : ''}}">
-                                <a href="{{route('users.index')}}"><i class="ik ik-user"></i><span>Users</span></a>
-                            </div> --}}
+                            <div
+                                class="nav-item {{Route::is('transaction.index') || Route::is('transaction.create') || Route::is('transaction.edit') || Route::is('transaction.destroy') ? 'active' : ''}}">
+                                <a href="{{route('transaction.index')}}" style="color:#0e0e0e"><i class="ik ik-credit-card"></i><span>Transactions</span></a>
+                            </div>
                         </nav>
                     </div>
                 </div>

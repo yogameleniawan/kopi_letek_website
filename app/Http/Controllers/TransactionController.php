@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
-class ProductController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,9 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $data = app('firebase.firestore')->database()->collection('products')->documents();
+        $data = app('firebase.firestore')->database()->collection('transactions')->documents();
 
-        return view('admin.products.index', compact('data'));
+        return view('admin.transactions.index', compact('data'));
     }
 
     /**
@@ -37,14 +37,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data = app('firebase.firestore')->database()->collection('products')->newDocument();
+        $data = app('firebase.firestore')->database()->collection('transactions')->newDocument();
         $data->set([
             'nama' => $request->nama,
             'harga' => $request->harga,
             'kategori' => $request->kategori,
             'tipe'    => $request->tipe
         ]);
-        return redirect()->route('product.index');
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -78,7 +78,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = app('firebase.firestore')->database()->collection('products')->document($request->id_update)
+        $data = app('firebase.firestore')->database()->collection('transactions')->document($request->id_update)
             ->update([
                 ['path' => 'nama', 'value' => $request->nama_update],
                 ['path' => 'harga', 'value' => $request->harga_update],
@@ -86,7 +86,7 @@ class ProductController extends Controller
                 ['path' => 'tipe', 'value' => $request->tipe_update]
             ]);
 
-        return redirect()->route('product.index');
+        return redirect()->route('transactions.index');
     }
 
     /**
@@ -97,12 +97,12 @@ class ProductController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $data = app('firebase.firestore')->database()->collection('products')->document($request->id_delete)->delete();
+        $data = app('firebase.firestore')->database()->collection('transactions')->document($request->id_delete)->delete();
     }
 
-    public function getProduk(Request $request)
+    public function getTransaksi(Request $request)
     {
-        $data = app('firebase.firestore')->database()->collection('products')->document($request->id)->snapshot()->data();
+        $data = app('firebase.firestore')->database()->collection('transactions')->document($request->id)->snapshot()->data();
 
         return response()->json(['data' => $data], 200);
     }

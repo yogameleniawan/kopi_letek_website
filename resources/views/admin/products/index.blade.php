@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-Materi
+Produk
 @endsection
 @section('header')
 <style>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +37,9 @@ Route::middleware([
 
         Route::resources([
             'product' => ProductController::class,
+            'transaction' => TransactionController::class,
         ]);
     });
 });
 Route::post('getProduk', [ProductController::class, 'getProduk'])->name('getProduk');
+Route::post('getTransaksi', [TransactionController::class, 'getTransaksi'])->name('getTransaksi');
