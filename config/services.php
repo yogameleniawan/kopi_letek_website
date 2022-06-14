@@ -31,4 +31,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+
+    'firebase' => [
+        'api_key' => 'AIzaSyAOsK0bISQ1CujkpQku-GFZG1251qTUsUQ',
+        'auth_domain' => 'report-7fb48.firebaseapp.com',
+        'database_url' => 'https://report-7fb48-default-rtdb.asia-southeast1.firebasedatabase.app',
+        'project_id' => 'report-7fb48',
+        'storage_bucket' => 'report-7fb48.appspot.com',
+        'messaging_sender_id' => '976211834871',
+        'app_id' => '1:976211834871:web:a80903f2f5ee06a7ac20f2',
+        'measurement_id' => 'G-TEHRMJ33QP',
+    ],
+
 ];
