@@ -39,3 +39,4 @@ Route::middleware([
         ]);
     });
 });
+Route::post('getProduk', [ProductController::class, 'getProduk'])->name('getProduk');

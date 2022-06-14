@@ -83,6 +83,7 @@ Materi
     .delete:hover {
         cursor: pointer;
     }
+
 </style>
 <style>
     .switch {
@@ -144,6 +145,7 @@ Materi
     .slider.round:before {
         border-radius: 50%;
     }
+
 </style>
 @endsection
 @section('iconHeader')
@@ -164,71 +166,231 @@ Produk
     <div class="col-sm-12">
         <div class="card">
             <div class="box-body">
-                <div id="tambah_produk">
-                        <div class="form-group">
-                            <label>Nama Produk</label>
-                            <div class="input-group">
-                                <span class="input-group-prepend">
-                                    <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
-                                </span>
-                                <input type="text" class="form-control  " placeholder="Name" id="name" name="name" required>
-                            </div>
-                        </div>
-
-                        <div class="footer-buttons">
-
-                            <div id="chapter-loader" class="loader d-none"></div>
-                            <button id="btn-chapter" type="button" class="btn btn-primary" onclick="tambahData()">
-                                Tambah
-                            </button>
-                        </div>
-                </div>
-
-
-
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="card-body">
-                            <div class="dt-responsive">
-                                <table id="data_table" class="table scroll"
-                                style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'>
-                                    <thead>
-                                        <tr>
-                                            <th>No. </th>
-                                            <th>Id</th>
-                                            <th>Produk</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($data as  $key => $document)
-                                            @if ($document->exists())
-                                                <tr>
-                                                    <td>{{$key + 1}}</td>
-                                                    <td>{{$document->id()}}</td>
-                                                    <td>{{app('firebase.firestore')->database()->collection('products')->document($document->id())->snapshot()->data()['nama']}}</td>
-                                                    <td>
-                                                        <a class="btn btn-success" style="color: white" onclick="editProduk('{{$document->id()}}')">Edit</a>
-                                                        <a class="btn btn-danger" style="color: white">Hapus</a>
-                                                    </td>
-                                                </tr>
-                                            @endif
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                        <form id="form-tambah" action="{{route('product.store')}}" class="text-left border border-light p-5" enctype="multipart/form-data"
+                            style="padding-bottom: 50px;" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" id="id">
+                            <div class="form-group">
+                                <label>Nama Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Nama Produk" id="nama"
+                                        name="nama" required>
+                                </div>
                             </div>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
 
+                            <div class="form-group">
+                                <label>Harga Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Harga Produk" id="harga"
+                                        name="harga" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Kategori Produk"
+                                        id="kategori" name="kategori" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tipe Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Tipe Produk" id="tipe"
+                                        name="tipe" required>
+                                </div>
+                            </div>
+
+                            <div class="footer-buttons">
+                                <button id="produk-btn-add" type="submit" class="btn btn-primary">
+                                    Tambah
+                                </button>
+                            </div>
+                        </form>
+
+                        <form id="form-edit" action="{{route('product.update', '1')}}" class="text-left border border-light p-5 d-none" enctype="multipart/form-data"
+                            style="padding-bottom: 50px;" method="POST">
+                            @method('PUT')
+                            @csrf
+                            <input type="hidden" name="id_update" id="id_update">
+                            <div class="form-group">
+                                <label>Nama Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Nama Produk" id="nama_update"
+                                        name="nama_update" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Harga Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Harga Produk" id="harga_update"
+                                        name="harga_update" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Kategori Produk"
+                                        id="kategori_update" name="kategori_update" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tipe Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Tipe Produk" id="tipe_update"
+                                        name="tipe_update" required>
+                                </div>
+                            </div>
+
+                            <div class="footer-buttons">
+                                <button type="submit" class="btn btn-success">
+                                    Update
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="batal()">
+                                    Batal
+                                </button>
+                            </div>
+                        </form>
+
+                        <form id="form-delete" action="{{route('product.destroy', '1')}}" class="text-left border border-light p-5 d-none" enctype="multipart/form-data"
+                            style="padding-bottom: 50px;" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <input type="hidden" name="id_delete" id="id_delete">
+                            <div class="form-group">
+                                <label>Nama Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Nama Produk" id="nama_delete"
+                                        name="nama_delete" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Harga Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Harga Produk" id="harga_delete"
+                                        name="harga_delete" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Kategori Produk"
+                                        id="kategori_delete" name="kategori_delete" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tipe Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="text" class="form-control  " placeholder="Tipe Produk" id="tipe_delete"
+                                        name="tipe_delete" readonly>
+                                </div>
+                            </div>
+
+                            <div class="footer-buttons">
+                                <button type="submit" class="btn btn-danger">
+                                    Delete
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="batal()">
+                                    Batal
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="stats-loader" class="row d-none" style="text-align: -webkit-center;margin-top:20px">
+                    <div class="col-md-12">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card-body">
+                        <div class="dt-responsive">
+                            <table id="data_table" class="table scroll"
+                                style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'>
+                                <thead>
+                                    <tr>
+                                        <th>No. </th>
+                                        <th>Id</th>
+                                        <th>Produk</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body_tabel">
+                                    @foreach ($data as $key => $document)
+                                    @if ($document->exists())
+                                    <tr>
+                                        <td>{{$key + 1}}</td>
+                                        <td>{{$document->id()}}</td>
+                                        <td>{{app('firebase.firestore')->database()->collection('products')->document($document->id())->snapshot()->data()['nama']}}
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-success" style="color: white"
+                                                onclick="editProduk('{{$document->id()}}')">Edit</a>
+                                            <a class="btn btn-danger" style="color: white" onclick="deleteProduk('{{$document->id()}}')">Hapus</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
             </div>
-            <!-- /.box-body -->
+
         </div>
-        <!-- /.box -->
+        <!-- /.box-body -->
     </div>
-    <!-- /.col -->
+    <!-- /.box -->
+</div>
+<!-- /.col -->
 </div>
 
 <!-- /.content-wrapper -->
@@ -238,9 +400,127 @@ Produk
 <script src="{{ url('assets/admin/dynamictable/dynamitable.jquery.min.js') }}"></script>
 
 <script>
-    function editProduk(id)
+
+    function getProduk(id)
     {
-        console.log(id)
+        let id_produk = id
+        $.ajax({
+            async: false,
+            url: `{{route("getProduk")}}`,
+            type: "POST",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'id':id_produk,
+            },
+            statusCode: {
+                500: function (response) {
+                    console.log(response)
+                },
+            },
+            success: function (data) {
+                if(data.data.nama == undefined){
+                    $('#nama_update').val('')
+                }else{
+                    $('#nama_update').val(data.data.nama)
+                }
+
+                if(data.data.harga == undefined){
+                    $('#harga_update').val('')
+                }else{
+                    $('#harga_update').val(data.data.harga)
+                }
+
+                if(data.data.tipe == undefined){
+                    $('#tipe_update').val('')
+                }else{
+                    $('#tipe_update').val(data.data.tipe)
+                }
+
+                if(data.data.kategori == undefined){
+                    $('#kategori_update').val('')
+                }else{
+                    $('#kategori_update').val(data.data.kategori)
+                }
+            }
+        });
     }
+
+    function getProdukDelete(id)
+    {
+        let id_produk = id
+        $.ajax({
+            async: false,
+            url: `{{route("getProduk")}}`,
+            type: "POST",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'id':id_produk,
+            },
+            statusCode: {
+                500: function (response) {
+                    console.log(response)
+                },
+            },
+            success: function (data) {
+                if(data.data.nama == undefined){
+                    $('#nama_delete').val('')
+                }else{
+                    $('#nama_delete').val(data.data.nama)
+                }
+
+                if(data.data.harga == undefined){
+                    $('#harga_delete').val('')
+                }else{
+                    $('#harga_delete').val(data.data.harga)
+                }
+
+                if(data.data.tipe == undefined){
+                    $('#tipe_delete').val('')
+                }else{
+                    $('#tipe_delete').val(data.data.tipe)
+                }
+
+                if(data.data.kategori == undefined){
+                    $('#kategori_delete').val('')
+                }else{
+                    $('#kategori_delete').val(data.data.kategori)
+                }
+            }
+        });
+    }
+
+    function editProduk(id) {
+        $('#form-edit').removeClass('d-none')
+        $('#form-tambah').addClass('d-none')
+        $('#form-delete').addClass('d-none')
+        $('#id_update').val(id)
+        getProduk(id)
+    }
+
+    function deleteProduk(id) {
+        $('#form-delete').removeClass('d-none')
+        $('#form-tambah').addClass('d-none')
+        $('#form-edit').addClass('d-none')
+        $('#id_delete').val(id)
+        getProdukDelete(id)
+    }
+
+    function batal()
+    {
+        $('#form-tambah').removeClass('d-none')
+        $('#form-edit').addClass('d-none')
+        $('#form-delete').addClass('d-none')
+        $('#nama_update').val('')
+        $('#harga_update').val('')
+        $('#tipe_update').val('')
+        $('#kategori_update').val('')
+    }
+
 </script>
 @endsection

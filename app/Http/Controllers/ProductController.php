@@ -37,12 +37,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data = app('firebase.firestore')->database()->collection('User')->newDocument();
+        $data = app('firebase.firestore')->database()->collection('products')->newDocument();
         $data->set([
-            'firstname' => 'Seven',
-            'lastname' => 'Stac',
-            'age'    => 19
+            'nama' => $request->nama,
+            'harga' => $request->harga,
+            'kategori' => $request->kategori,
+            'tipe'    => $request->tipe
         ]);
+        return redirect()->route('product.index');
     }
 
     /**
@@ -76,13 +78,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = app('firebase.firestore')
-            ->database()
-            ->collection('User')
-            ->document('166f34ea1c9641dab0a0')
+        $data = app('firebase.firestore')->database()->collection('products')->document($request->id_update)
             ->update([
-                ['path' => 'age', 'value' => '18']
+                ['path' => 'nama', 'value' => $request->nama_update],
+                ['path' => 'harga', 'value' => $request->harga_update],
+                ['path' => 'kategori', 'value' => $request->kategori_update],
+                ['path' => 'tipe', 'value' => $request->tipe_update]
             ]);
+
+        return redirect()->route('product.index');
     }
 
     /**
@@ -91,8 +95,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $data = app('firebase.firestore')->database()->collection('User')->document('166f34ea1c9641dab0a0')->delete();
+        $data = app('firebase.firestore')->database()->collection('products')->document($request->id_delete)->delete();
+        return redirect()->route('product.index');
+    }
+
+    public function getProduk(Request $request)
+    {
+        $data = app('firebase.firestore')->database()->collection('products')->document($request->id)->snapshot()->data();
+
+        return response()->json(['data' => $data], 200);
     }
 }
