@@ -195,6 +195,17 @@ Produk
                             </div>
 
                             <div class="form-group">
+                                <label>Stok Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok"
+                                        name="stok" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label>Kategori Produk</label>
                                 <div class="input-group">
                                     <span class="input-group-prepend">
@@ -247,6 +258,17 @@ Produk
                                     </span>
                                     <input type="number" class="form-control  " placeholder="Harga Produk" id="harga_update"
                                         name="harga_update" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Stok Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok_update"
+                                        name="stok_update" required>
                                 </div>
                             </div>
 
@@ -306,6 +328,17 @@ Produk
                                     </span>
                                     <input type="number" class="form-control  " placeholder="Harga Produk" id="harga_delete"
                                         name="harga_delete" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Stok Produk</label>
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
+                                    </span>
+                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok_delete"
+                                        name="stok_delete" readonly>
                                 </div>
                             </div>
 
@@ -433,6 +466,12 @@ Produk
                     $('#harga_update').val(data.data.harga)
                 }
 
+                if(data.data.stok == undefined){
+                    $('#stok_update').val('')
+                }else{
+                    $('#stok_update').val(data.data.stok)
+                }
+
                 if(data.data.tipe == undefined){
                     $('#tipe_update').val('')
                 }else{
@@ -480,6 +519,12 @@ Produk
                     $('#harga_delete').val(data.data.harga)
                 }
 
+                if(data.data.stok == undefined){
+                    $('#stok_delete').val('')
+                }else{
+                    $('#stok_delete').val(data.data.stok)
+                }
+
                 if(data.data.tipe == undefined){
                     $('#tipe_delete').val('')
                 }else{
@@ -518,8 +563,14 @@ Produk
         $('#form-delete').addClass('d-none')
         $('#nama_update').val('')
         $('#harga_update').val('')
+        $('#stok_update').val('')
         $('#tipe_update').val('')
         $('#kategori_update').val('')
+        $('#nama_delete').val('')
+        $('#harga_delete').val('')
+        $('#stok_delete').val('')
+        $('#tipe_delete').val('')
+        $('#kategori_delete').val('')
     }
 
 </script>

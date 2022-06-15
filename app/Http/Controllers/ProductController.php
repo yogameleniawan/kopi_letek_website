@@ -41,6 +41,7 @@ class ProductController extends Controller
         $data->set([
             'nama' => $request->nama,
             'harga' => $request->harga,
+            'stok' => $request->stok,
             'kategori' => $request->kategori,
             'tipe'    => $request->tipe
         ]);
@@ -82,6 +83,7 @@ class ProductController extends Controller
             ->update([
                 ['path' => 'nama', 'value' => $request->nama_update],
                 ['path' => 'harga', 'value' => $request->harga_update],
+                ['path' => 'stok', 'value' => $request->stok_update],
                 ['path' => 'kategori', 'value' => $request->kategori_update],
                 ['path' => 'tipe', 'value' => $request->tipe_update]
             ]);
