@@ -334,14 +334,14 @@ Transaction
                 $('#id_transaction').html(id_transaksi)
 
                 data.data.orders.forEach(item => {
-                    total += item.product.harga
+                    total += item.product.harga * item.qty
                     html += `
                     <tr>
                         <td>${item.product.nama}</td>
                         <td>${item.product.kategori}</td>
                         <td>${item.product.tipe}</td>
                         <td>${item.qty}</td>
-                        <td>Rp. ${number_format(item.product.harga,0)}</td>
+                        <td><b>Rp. ${number_format(item.product.harga,0)}</b></td>
                     </tr>
                     `
                 });
