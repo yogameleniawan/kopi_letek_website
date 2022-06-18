@@ -223,9 +223,8 @@
                                     href="{{route('dashboard')}}"><i
                                         class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
                             </div> --}}
-                            <div
-                                class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
-                                <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Products</span></a>
+                            <div class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
+                            <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Products</span></a>
                             </div>
 
                             <div

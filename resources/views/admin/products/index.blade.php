@@ -168,6 +168,7 @@ Produk
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
+                        @if (Auth::user()->role == 'admin')
                         <form id="form-tambah" action="{{route('product.store')}}" class="text-left border border-light p-5" enctype="multipart/form-data"
                             style="padding-bottom: 50px;" method="POST">
                             @csrf
@@ -233,6 +234,7 @@ Produk
                                 </button>
                             </div>
                         </form>
+                        @endif
 
                         <form id="form-edit" action="{{route('product.update', '1')}}" class="text-left border border-light p-5 d-none" enctype="multipart/form-data"
                             style="padding-bottom: 50px;" method="POST">
@@ -365,9 +367,12 @@ Produk
                             </div>
 
                             <div class="footer-buttons">
+                                @if (Auth::user()->role == 'admin')
+
                                 <button type="submit" class="btn btn-danger">
                                     Delete
                                 </button>
+                                @endif
                                 <button type="button" class="btn btn-secondary" onclick="batal()">
                                     Batal
                                 </button>
@@ -401,11 +406,19 @@ Produk
                                         <td>{{$document->id()}}</td>
                                         <td>{{app('firebase.firestore')->database()->collection('products')->document($document->id())->snapshot()->data()['nama']}}
                                         </td>
+                                        @if (Auth::user()->role == 'admin')
                                         <td>
                                             <a class="btn btn-success" style="color: white"
                                                 onclick="editProduk('{{$document->id()}}')">Edit</a>
                                             <a class="btn btn-danger" style="color: white" onclick="deleteProduk('{{$document->id()}}')">Hapus</a>
                                         </td>
+                                        @else
+                                        <td>
+                                            <a class="btn btn-success" style="color: white"
+                                                onclick="deleteProduk('{{$document->id()}}')">Lihat</a>
+                                        </td>
+                                        @endif
+
                                     </tr>
                                     @endif
                                     @endforeach
