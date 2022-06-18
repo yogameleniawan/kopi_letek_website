@@ -222,7 +222,7 @@ Transaction
                                             <table class="table">
                                                 <tr>
                                                     <th>Total Harga:</th>
-                                                    <td>Rp. <label id="total_harga"></label></td>
+                                                    <td><b>Rp. <label id="total_harga"></label></b></td>
                                                 </tr>
                                             </table>
                                         </div>
@@ -341,7 +341,7 @@ Transaction
                         <td>${item.product.kategori}</td>
                         <td>${item.product.tipe}</td>
                         <td>${item.qty}</td>
-                        <td><b>Rp. ${number_format(item.product.harga,0)}</b></td>
+                        <td>Rp. ${number_format(item.product.harga,0)}</td>
                     </tr>
                     `
                 });
