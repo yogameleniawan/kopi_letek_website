@@ -30,7 +30,8 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        // return view('dashboard');
+        return redirect()->route('product.index');
     })->name('dashboard');
 
     Route::prefix('admin')->group(function () {

@@ -30,7 +30,7 @@ Transaction
         border: 5px solid #f3f3f3;
         -webkit-animation: spin 1s linear infinite;
         animation: spin 1s linear infinite;
-        border-top: 5px solid #007bff;
+        border-top: 5px solid #b68834;
         border-radius: 50%;
         width: 50px;
         height: 50px;
@@ -58,7 +58,7 @@ Transaction
 
     .ik-plus-square {
 
-        background-color: #007bff;
+        background-color: #b68834;
         color: white;
         padding: 5px;
         font-size: 20px;
@@ -124,11 +124,11 @@ Transaction
     }
 
     input:checked+.slider {
-        background-color: #2196F3;
+        background-color: #b68834;
     }
 
     input:focus+.slider {
-        box-shadow: 0 0 1px #2196F3;
+        box-shadow: 0 0 1px #b68834;
     }
 
     input:checked+.slider:before {
@@ -168,6 +168,11 @@ Transaction
             <div class="box-body">
                 <div class="row">
                     <div class="col-sm-12">
+                        <div id="transaksi-loader" class="row d-none" style="text-align: -webkit-center;margin-top:20px">
+                            <div class="col-md-12">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
                         <div id="form-lihat" class="card d-none">
                             <div class="card-header"><h3 class="d-block w-100">Transaction<small class="float-right">Tanggal: <label id="tanggal_transaksi"></label></small></h3></div>
                             <div class="card-body">
@@ -300,10 +305,10 @@ Transaction
 
     function lihatTransaksi(id)
     {
-        $('#form-lihat').removeClass('d-none')
+        $('#transaksi-loader').removeClass('d-none')
+        $('#form-lihat').addClass('d-none')
         let id_transaksi = id
         $.ajax({
-            async: false,
             url: `{{route("getTransaksi")}}`,
             type: "POST",
             dataType: "json",
@@ -319,6 +324,8 @@ Transaction
                 },
             },
             success: function (data) {
+                $('#transaksi-loader').addClass('d-none')
+                $('#form-lihat').removeClass('d-none')
                 $('#tabel_transaction').html('')
                 let html = ``
                 let total = 0
