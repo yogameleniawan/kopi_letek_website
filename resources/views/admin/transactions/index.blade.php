@@ -166,6 +166,15 @@ Transaction
     <div class="col-sm-12">
         <div class="card">
             <div class="box-body">
+                <div class="row m-4">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6 style="background-color: #2dce89;border-radius: 10px;padding:10px;color:White">Income : <label id="income"></label></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div id="transaksi-loader" class="row d-none" style="text-align: -webkit-center;margin-top:20px">
@@ -352,6 +361,28 @@ Transaction
         });
     }
 
+    function getIncome()
+    {
+        $.ajax({
+            url: `{{route("getIncome")}}`,
+            type: "GET",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            statusCode: {
+                500: function (response) {
+                    console.log(response)
+                },
+            },
+            success: function (data) {
+                let income = 0
+
+                $('#income').text(`Rp. ${number_format(data.data,0)}`)
+            }
+        });
+    }
+
     function number_format(number, decimals, dec_point, thousands_point) {
 
         if (number == null || !isFinite(number)) {
@@ -382,5 +413,11 @@ Transaction
         return number;
     }
 
+</script>
+
+<script>
+    $(document).ready(function (){
+        getIncome()
+    })
 </script>
 @endsection

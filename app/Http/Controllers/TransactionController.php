@@ -15,7 +15,6 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $data = app('firebase.firestore')->database()->collection('transactions')->documents();
-
         return view('admin.transactions.index', compact('data'));
     }
 
@@ -105,5 +104,18 @@ class TransactionController extends Controller
         $data = app('firebase.firestore')->database()->collection('transactions')->document($request->id)->snapshot()->data();
 
         return response()->json(['data' => $data], 200);
+    }
+
+    public function getIncome()
+    {
+        $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+        $income = 0;
+        foreach ($data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        return response()->json(['data' => $income], 200);
     }
 }

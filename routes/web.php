@@ -32,16 +32,6 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return redirect()->route('transaction.index');
     })->name('dashboard');
-    // Route::middleware('can:admin')->group(function () {
-    //     Route::resources([
-    //         'product' => ProductController::class,
-    //     ]);
-    // });
-    // Route::middleware('can:owner')->group(function () {
-    //     Route::resources([
-    //         'product' => ProductController::class,
-    //     ]);
-    // });
     Route::resources([
         'product' => ProductController::class,
         'transaction' => TransactionController::class,
@@ -50,3 +40,4 @@ Route::middleware([
 
 Route::post('getProduk', [ProductController::class, 'getProduk'])->name('getProduk');
 Route::post('getTransaksi', [TransactionController::class, 'getTransaksi'])->name('getTransaksi');
+Route::get('getIncome', [TransactionController::class, 'getIncome'])->name('getIncome');
