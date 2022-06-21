@@ -201,8 +201,10 @@ Produk
                                     <span class="input-group-prepend">
                                         <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                                     </span>
-                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok"
-                                        name="stok" required>
+                                    <select class="form-control select2" id="stok" name="stok">
+                                        <option value="habis">Habis</option>
+                                        <option value="ada">Ada</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -269,8 +271,10 @@ Produk
                                     <span class="input-group-prepend">
                                         <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                                     </span>
-                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok_update"
-                                        name="stok_update" required>
+                                    <select class="form-control select2" id="stok_update" name="stok_update">
+                                        <option value="habis">Habis</option>
+                                        <option value="ada">Ada</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -339,8 +343,10 @@ Produk
                                     <span class="input-group-prepend">
                                         <label class="input-group-text"><i class="ik ik-edit-1"></i></label>
                                     </span>
-                                    <input type="number" class="form-control  " placeholder="Stok Produk" id="stok_delete"
-                                        name="stok_delete" readonly>
+                                    <select class="form-control select2" id="stok_delete" name="stok_delete" disabled>
+                                        <option value="habis">Habis</option>
+                                        <option value="ada">Ada</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -482,7 +488,11 @@ Produk
                 if(data.data.stok == undefined){
                     $('#stok_update').val('')
                 }else{
-                    $('#stok_update').val(data.data.stok)
+                    if(data.data.stok == 'ada'){
+                        $('#stok_update option[value=ada]').attr('selected','selected')
+                    }else{
+                        $('#stok_update option[value=habis]').attr('selected','selected')
+                    }
                 }
 
                 if(data.data.tipe == undefined){
@@ -535,7 +545,11 @@ Produk
                 if(data.data.stok == undefined){
                     $('#stok_delete').val('')
                 }else{
-                    $('#stok_delete').val(data.data.stok)
+                    if(data.data.stok == 'ada'){
+                        $('#stok_delete option[value=ada]').attr('selected','selected')
+                    }else{
+                        $('#stok_delete option[value=habis]').attr('selected','selected')
+                    }
                 }
 
                 if(data.data.tipe == undefined){
@@ -576,12 +590,12 @@ Produk
         $('#form-delete').addClass('d-none')
         $('#nama_update').val('')
         $('#harga_update').val('')
-        $('#stok_update').val('')
+        // $('#stok_update').val('')
         $('#tipe_update').val('')
         $('#kategori_update').val('')
         $('#nama_delete').val('')
         $('#harga_delete').val('')
-        $('#stok_delete').val('')
+        // $('#stok_delete').val('')
         $('#tipe_delete').val('')
         $('#kategori_delete').val('')
     }
