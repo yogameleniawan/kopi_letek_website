@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -14,8 +15,11 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
+        $start = null;
+        $end = null;
         $data = app('firebase.firestore')->database()->collection('transactions')->documents();
-        return view('admin.transactions.index', compact('data'));
+
+        return view('admin.transactions.index', compact('data', 'start', 'end'));
     }
 
     /**
@@ -106,16 +110,39 @@ class TransactionController extends Controller
         return response()->json(['data' => $data], 200);
     }
 
-    public function getIncome()
+    public function getIncome(Request $request)
     {
-        $data = app('firebase.firestore')->database()->collection('transactions')->documents();
-        $income = 0;
-        foreach ($data as $d) {;
-            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
-            foreach ($document['orders'] as $doc) {
-                $income += $doc['qty'] * $doc['product']['harga'];
+        $start = $request->from_date;
+        $end = $request->to_date;
+        if ($start == '' || $end == '') {
+            $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+            $income = 0;
+            foreach ($data as $d) {;
+                $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                foreach ($document['orders'] as $doc) {
+                    $income += $doc['qty'] * $doc['product']['harga'];
+                }
             }
+            return response()->json(['data' => $income], 200);
+        } else {
+            $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+            $income = 0;
+            foreach ($data as $d) {;
+                $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                foreach ($document['orders'] as $doc) {
+                    $income += $doc['qty'] * $doc['product']['harga'];
+                }
+            }
+            return response()->json(['data' => $income], 200);
         }
-        return response()->json(['data' => $income], 200);
+    }
+
+    public function transactionSearch(Request $request)
+    {
+        $start = $request->from_date;
+        $end = $request->to_date;
+        $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+
+        return view('admin.transactions.index', compact('data', 'start', 'end'));
     }
 }

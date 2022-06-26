@@ -198,8 +198,8 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
 
-                                    {{-- <a class="dropdown-item" href="{{ route('profile.show') }}">
-                                        <i class="ik ik-user dropdown-icon"></i>Account</a> --}}
+                                    <a class="dropdown-item" href="{{ route('profile.show') }}">
+                                        <i class="ik ik-user dropdown-icon"></i>Account</a>
                                     <button class="dropdown-item" href="#">
                                         <i class="ik ik-power dropdown-icon"></i>Logout</button>
                                 </form>
@@ -219,10 +219,10 @@
                 <div class="sidebar-content">
                     <div class="nav-container">
                         <nav id="main-menu-navigation" class="navigation-main">
-                            {{-- <div class="nav-item {{Route::is('dashboard')  ? 'active' : ''}}"><a
-                                    href="{{route('dashboard')}}"><i
+                            <div class="nav-item {{Route::is('dashboard')  ? 'active' : ''}}"><a
+                                    href="{{route('dashboard')}}" style="color:#0e0e0e"><i
                                         class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
-                            </div> --}}
+                            </div>
                             <div class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
                             <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Products</span></a>
                             </div>

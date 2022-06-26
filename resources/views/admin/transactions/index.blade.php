@@ -168,22 +168,84 @@ Transaction
             <div class="box-body">
                 <div class="row m-4">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h6 style="background-color: #2dce89;border-radius: 10px;padding:10px;color:White">Income : <label id="income"></label></h6>
+                        <form action="{{route('search')}}" method="POST">
+                            @csrf
+                            <div class="row" style="align-items: center;">
+                                <div class="col-md-6">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <label class="input-group-text"><i
+                                                            class="mdi mdi-calendar-range"></i></label>
+                                                </span>
+                                                <input type="date" name="from_date" id="from_date" class="form-control"
+                                                    value="{{ $start == null ? '' : $start}}">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span><label>&nbsp - &nbsp</label></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-prepend">
+                                                    <label class="input-group-text"><i
+                                                            class="mdi mdi-calendar-range"></i></label>
+                                                </span>
+                                                <input type="date" name="to_date" id="to_date" class="form-control"
+                                                    value="{{ $end == null ? '' : $end}}">
+                                            </div>&nbsp
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                &nbsp<button type="submit" name="search" id="search"
+                                                    class="btn btn-secondary">Search</button>&nbsp
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-6 col-md-6">
+                                    <div class="card prod-p-card card-green">
+                                        <div class="card-body">
+                                            <div class="row align-items-center mb-30">
+                                                <div class="col">
+                                                    <h6 class="mb-5 text-white">Total Income : </h6>
+                                                    <h3 class="mb-0 fw-700 text-white" id="income">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="loader"
+                                                                    style="border-top: 5px solid #6c757d;">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </h3>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-dollar-sign text-green f-18"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div id="transaksi-loader" class="row d-none" style="text-align: -webkit-center;margin-top:20px">
+                        <div id="transaksi-loader" class="row d-none"
+                            style="text-align: -webkit-center;margin-top:20px">
                             <div class="col-md-12">
                                 <div class="loader"></div>
                             </div>
                         </div>
                         <div id="form-lihat" class="card d-none">
-                            <div class="card-header"><h3 class="d-block w-100">Transaction<small class="float-right">Tanggal: <label id="tanggal_transaksi"></label></small></h3></div>
+                            <div class="card-header">
+                                <h3 class="d-block w-100">Transaction<small class="float-right">Tanggal: <label
+                                            id="tanggal_transaksi"></label></small></h3>
+                            </div>
                             <div class="card-body">
                                 <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">
@@ -241,7 +303,8 @@ Transaction
                                     <div class="col-11">
                                     </div>
                                     <div class="col-1">
-                                        <button type="button" onclick="tutup()" class="btn btn-secondary pull-right"> Tutup</button>
+                                        <button type="button" onclick="tutup()" class="btn btn-secondary pull-right">
+                                            Tutup</button>
                                     </div>
                                 </div>
                             </div>
@@ -296,8 +359,6 @@ Transaction
     </div>
     <!-- /.box -->
 </div>
-<!-- /.col -->
-</div>
 
 <!-- /.content-wrapper -->
 @endsection
@@ -306,14 +367,11 @@ Transaction
 <script src="{{ url('assets/admin/dynamictable/dynamitable.jquery.min.js') }}"></script>
 
 <script>
-
-    function tutup()
-    {
+    function tutup() {
         $('#form-lihat').addClass('d-none')
     }
 
-    function lihatTransaksi(id)
-    {
+    function lihatTransaksi(id) {
         $('#transaksi-loader').removeClass('d-none')
         $('#form-lihat').addClass('d-none')
         let id_transaksi = id
@@ -325,7 +383,7 @@ Transaction
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
-                'id':id_transaksi,
+                'id': id_transaksi,
             },
             statusCode: {
                 500: function (response) {
@@ -355,20 +413,23 @@ Transaction
                     `
                 });
                 $('#tabel_transaction').html(html)
-                $('#total_harga').html(number_format(total,0))
+                $('#total_harga').html(number_format(total, 0))
                 console.log(data)
             }
         });
     }
 
-    function getIncome()
-    {
+    function getIncome() {
         $.ajax({
             url: `{{route("getIncome")}}`,
-            type: "GET",
+            type: "POST",
             dataType: "json",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'from_date': $('#from_date').val(),
+                'to_date': $('#to_date').val(),
             },
             statusCode: {
                 500: function (response) {
@@ -416,8 +477,9 @@ Transaction
 </script>
 
 <script>
-    $(document).ready(function (){
+    $(document).ready(function () {
         getIncome()
     })
+
 </script>
 @endsection

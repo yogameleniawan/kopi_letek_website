@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/register', function () {
@@ -29,9 +30,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return redirect()->route('transaction.index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/transaction/search', [TransactionController::class, 'transactionSearch'])->name('search');
     Route::resources([
         'product' => ProductController::class,
         'transaction' => TransactionController::class,
@@ -40,4 +40,4 @@ Route::middleware([
 
 Route::post('getProduk', [ProductController::class, 'getProduk'])->name('getProduk');
 Route::post('getTransaksi', [TransactionController::class, 'getTransaksi'])->name('getTransaksi');
-Route::get('getIncome', [TransactionController::class, 'getIncome'])->name('getIncome');
+Route::post('getIncome', [TransactionController::class, 'getIncome'])->name('getIncome');
