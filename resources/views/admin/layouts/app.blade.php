@@ -56,6 +56,7 @@
             background-color: #b68834;
             border-radius: 30px;
         }
+
     </style>
     @yield('css')
 </head>
@@ -189,8 +190,9 @@
                 <div class="d-flex justify-content-between">
                     <div class="top-menu d-flex align-items-center"><button type="button"
                             class="btn-icon mobile-nav-toggle d-lg-none"><span></span></button></div>
-                    <div class="top-menu d-flex align-items-center"><button type="button" id="navbar-fullscreen"
-                            class="nav-link"><i class="ik ik-maximize"></i></button>
+                    <div class="top-menu d-flex align-items-center">
+                        {{-- <button type="button" id="navbar-fullscreen"
+                            class="nav-link"><i class="ik ik-maximize"></i></button> --}}
                         <div class="dropdown"><a class="dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="avatar"
                                     src="{{url('assets/admin/img/user.png')}}" alt=""></a>
@@ -223,13 +225,16 @@
                                     href="{{route('dashboard')}}" style="color:#0e0e0e"><i
                                         class="ik ik-bar-chart-2"></i><span>Dashboard</span></a>
                             </div>
-                            <div class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
-                            <a href="{{route('product.index')}}" style="color:#0e0e0e"><i class="ik ik-menu"></i><span>Products</span></a>
+                            <div
+                                class="nav-item {{Route::is('product.index') || Route::is('product.create') || Route::is('product.edit') || Route::is('product.destroy') ? 'active' : ''}}">
+                                <a href="{{route('product.index')}}" style="color:#0e0e0e"><i
+                                        class="ik ik-menu"></i><span>Products</span></a>
                             </div>
 
                             <div
                                 class="nav-item {{Route::is('transaction.index') || Route::is('transaction.create') || Route::is('transaction.edit') || Route::is('transaction.destroy') ? 'active' : ''}}">
-                                <a href="{{route('transaction.index')}}" style="color:#0e0e0e"><i class="ik ik-credit-card"></i><span>Transactions</span></a>
+                                <a href="{{route('transaction.index')}}" style="color:#0e0e0e"><i
+                                        class="ik ik-credit-card"></i><span>Transactions</span></a>
                             </div>
                         </nav>
                     </div>
@@ -275,13 +280,6 @@
         </div>
     </div>
 
-
-    <script>
-        $('.mobile-nav-toggle').click(function () {
-            $('#btn-sidebar').removeClass('hide-sidebar')
-        })
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
         window.jQuery || document.write(
@@ -306,7 +304,8 @@
     <script src="{{url('assets/admin/plugins/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}">
     </script>
     {{-- <script src="{{url('assets/admin/plugins/jvectormap/jquery-jvectormap.min.js')}}"></script> --}}
-    {{-- <script src="{{url('assets/admin/plugins/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js')}}"></script> --}}
+    {{-- <script src="{{url('assets/admin/plugins/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js')}}">
+    </script> --}}
     <script src="{{url('assets/admin/plugins/moment/moment.js')}}"></script>
     <script src="{{url('assets/admin/plugins/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.min.js')}}">
     </script>
@@ -317,6 +316,47 @@
     <script src="{{url('assets/admin/js/charts.js')}}"></script>
     <script src="{{url('assets/admin/js/alerts.js')}}"></script>
     <script src="{{url('assets/admin/plugins/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.mobile-nav-toggle').click(function () {
+                $('#btn-sidebar').removeClass('hide-sidebar')
+            })
+        })
+    </script>
+
+    <script>
+        function number_format(number, decimals, dec_point, thousands_point) {
+
+            if (number == null || !isFinite(number)) {
+                throw new TypeError("number is not valid");
+            }
+
+            if (!decimals) {
+                var len = number.toString().split('.').length;
+                decimals = len > 1 ? len : 0;
+            }
+
+            if (!dec_point) {
+                dec_point = '.';
+            }
+
+            if (!thousands_point) {
+                thousands_point = ',';
+            }
+
+            number = parseFloat(number).toFixed(decimals);
+
+            number = number.replace(".", dec_point);
+
+            var splitNum = number.split(dec_point);
+            splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+            number = splitNum.join(dec_point);
+
+            return number;
+        }
+
+    </script>
 
     @yield('footer')
 

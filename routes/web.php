@@ -41,3 +41,4 @@ Route::middleware([
 Route::post('getProduk', [ProductController::class, 'getProduk'])->name('getProduk');
 Route::post('getTransaksi', [TransactionController::class, 'getTransaksi'])->name('getTransaksi');
 Route::post('getIncome', [TransactionController::class, 'getIncome'])->name('getIncome');
+Route::post('getDataCard', [DashboardController::class, 'getDataCard'])->name('getDataCard');
