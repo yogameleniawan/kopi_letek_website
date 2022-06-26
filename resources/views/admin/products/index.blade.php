@@ -401,6 +401,7 @@ Produk
                                         <th>No. </th>
                                         <th>Id</th>
                                         <th>Produk</th>
+                                        <th>Stok</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -411,6 +412,8 @@ Produk
                                         <td>{{$key + 1}}</td>
                                         <td>{{$document->id()}}</td>
                                         <td>{{app('firebase.firestore')->database()->collection('products')->document($document->id())->snapshot()->data()['nama']}}
+                                        </td>
+                                        <td>{{app('firebase.firestore')->database()->collection('products')->document($document->id())->snapshot()->data()['stok']}}
                                         </td>
                                         @if (Auth::user()->role == 'admin')
                                         <td>

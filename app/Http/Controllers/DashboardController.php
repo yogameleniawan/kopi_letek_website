@@ -9,7 +9,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.index');
+        $transactions = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', Carbon::now()->format('d/m/Y'))->limit(5)->documents();
+
+        return view('admin.dashboard.index', compact('transactions'));
     }
 
 
@@ -27,7 +29,20 @@ class DashboardController extends Controller
         $total_product = $this->getTotalProdukSold($request->from_date, $request->to_date);
         // Get Total Product
 
-        return response()->json(['income' => $income, 'total_transaction' => $total_transaction, 'total_product' => $total_product], 200);
+        $total_product_data = $this->getProdukTotal();
+
+        $total_product_tersedia = $this->getProdukTersedia();
+
+        $total_product_kosong = $this->getProdukKosong();
+
+        return response()->json([
+            'income' => $income,
+            'total_transaction' => $total_transaction,
+            'total_product' => $total_product,
+            'total_product_data' => $total_product_data,
+            'total_product_tersedia' => $total_product_tersedia,
+            'total_product_kosong' => $total_product_kosong,
+        ], 200);
     }
 
     function getTotalIncome($from_date, $to_date)
@@ -75,6 +90,39 @@ class DashboardController extends Controller
             foreach ($document['orders'] as $doc) {
                 $product += $doc['qty'];
             }
+        }
+        return $product;
+    }
+
+    public function getProdukTotal()
+    {
+        $data = app('firebase.firestore')->database()->collection('products')->documents();
+
+        $product = 0;
+        foreach ($data as $d) {;
+            $product++;
+        }
+        return $product;
+    }
+
+    public function getProdukTersedia()
+    {
+        $data = app('firebase.firestore')->database()->collection('products')->where('stok', '=', 'ada')->documents();
+
+        $product = 0;
+        foreach ($data as $d) {;
+            $product++;
+        }
+        return $product;
+    }
+
+    public function getProdukKosong()
+    {
+        $data = app('firebase.firestore')->database()->collection('products')->where('stok', '=', 'habis')->documents();
+
+        $product = 0;
+        foreach ($data as $d) {;
+            $product++;
         }
         return $product;
     }

@@ -166,47 +166,43 @@ Dashboard
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                    <div class="row" style="align-items: center;">
-                        <div class="col-md-12">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text"><i
-                                                    class="mdi mdi-calendar-range"></i></label>
-                                        </span>
-                                        <input type="date" name="from_date" id="from_date" class="form-control"
-                                            >
-                                    </div>
+                <div class="row" style="align-items: center;">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="mdi mdi-calendar-range"></i></label>
+                                    </span>
+                                    <input type="date" name="from_date" id="from_date" class="form-control">
                                 </div>
+                            </div>
 
-                                <div class="form-group">
-                                    <span><label>&nbsp - &nbsp</label></span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-prepend">
-                                            <label class="input-group-text"><i
-                                                    class="mdi mdi-calendar-range"></i></label>
-                                        </span>
-                                        <input type="date" name="to_date" id="to_date" class="form-control"
-                                            >
-                                    </div>&nbsp
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        &nbsp<button name="search" id="search"
-                                            class="btn btn-secondary">Search</button>&nbsp
-                                    </div>
+                            <div class="form-group">
+                                <span><label>&nbsp - &nbsp</label></span>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-prepend">
+                                        <label class="input-group-text"><i class="mdi mdi-calendar-range"></i></label>
+                                    </span>
+                                    <input type="date" name="to_date" id="to_date" class="form-control">
+                                </div>&nbsp
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    &nbsp<button name="search" id="search"
+                                        class="btn btn-secondary">Search</button>&nbsp
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="col-xl-6 col-md-12">
-                        <div class="card prod-p-card card-red">
+                        <div class="card prod-p-card card-green">
                             <div class="card-body">
                                 <div class="row align-items-center mb-30">
                                     <div class="col">
@@ -222,7 +218,7 @@ Dashboard
                                         </h3>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fa fa-money-bill-alt text-red f-18"></i>
+                                        <i class="fa fa-money-bill-alt text-green f-18"></i>
                                     </div>
                                 </div>
                             </div>
@@ -282,6 +278,199 @@ Dashboard
     <!-- /.box -->
 </div>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-pill badge-primary mb-1">Informasi Produk</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card ticket-card">
+                            <div class="card-body">
+                                <p class="mb-30 bg-blue lbl-card"><i class="fas fa-file-archive"></i> Total Produk</p>
+                                <div class="text-center">
+                                    <h2 class="mb-0 d-inline-block text-blue" id="total_produk_data"><div class="row">
+                                        <div class="col-md-12">
+                                            <div class="loader"
+                                                style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
+                                            </div>
+                                        </div>
+                                    </div></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card ticket-card">
+                            <div class="card-body">
+                                <p class="mb-30 bg-green lbl-card"><i class="fa fa-tasks"></i> Jumlah Produk Tersedia</p>
+                                <div class="text-center">
+                                    <h2 class="mb-0 d-inline-block text-green" id="produk_tersedia"><div class="row">
+                                        <div class="col-md-12">
+                                            <div class="loader"
+                                                style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
+                                            </div>
+                                        </div>
+                                    </div></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card ticket-card">
+                            <div class="card-body">
+                                <p class="mb-30 bg-warning lbl-card"><i class="fa fa-exclamation-triangle"></i> Jumlah Produk Kosong</p>
+                                <div class="text-center">
+                                    <h2 class="mb-0 d-inline-block text-warning" id="produk_kosong"><div class="row">
+                                        <div class="col-md-12">
+                                            <div class="loader"
+                                                style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
+                                            </div>
+                                        </div>
+                                    </div></h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <span class="badge badge-pill badge-success mb-1">Transaksi Terbaru</span>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="transaksi-loader" class="row d-none"
+                            style="text-align: -webkit-center;margin-top:20px">
+                            <div class="col-md-12">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
+                        <div id="form-lihat" class="card d-none">
+                            <div class="card-header">
+                                <h3 class="d-block w-100">Transaction<small class="float-right">Tanggal: <label
+                                            id="tanggal_transaksi"></label></small></h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row invoice-info">
+                                    <div class="col-sm-4 invoice-col">
+                                        Pelanggan
+                                        <address>
+                                            <strong id="pelanggan"></strong>
+                                        </address>
+                                    </div>
+                                    <div class="col-sm-4 invoice-col">
+                                        Kasir
+                                        <address>
+                                            <strong>Kopi Letek</strong>
+                                        </address>
+                                    </div>
+                                    <div class="col-sm-4 invoice-col">
+                                        <b>Transaction ID : <label id="id_transaction"></label></b><br>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nama Produk</th>
+                                                    <th>Kategori</th>
+                                                    <th>Tipe</th>
+                                                    <th>Qty</th>
+                                                    <th>Harga</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tabel_transaction">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Total Harga:</th>
+                                                    <td><b>Rp. <label id="total_harga"></label></b></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row no-print">
+                                    <div class="col-11">
+                                    </div>
+                                    <div class="col-1">
+                                        <button type="button" onclick="tutup()" class="btn btn-secondary pull-right">
+                                            Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="card table-card mt-4">
+                        <div class="card-block">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>No. </th>
+                                            <th>Id</th>
+                                            <th>Pelanggan</th>
+                                            <th>Tanggal</th>
+                                            {{-- <th>Total Order</th> --}}
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body_tabel">
+                                        @foreach ($transactions as $key => $document)
+                                        @if ($document->exists())
+                                        <tr>
+                                            <td>{{$key + 1}}</td>
+                                            <td>{{$document->id()}}</td>
+                                            <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['pelanggan']}}
+                                            </td>
+                                            <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['tanggal']}}
+                                            </td>
+                                            {{-- <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
+                                            </td> --}}
+                                            <td>
+                                                <a class="btn btn-success" style="color: white"
+                                                    onclick="lihatTransaksi('{{$document->id()}}')">Lihat</a>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- /.content-wrapper -->
 @endsection
 @section('footer')
@@ -301,7 +490,7 @@ Dashboard
         getDataCard()
     })
 
-    $('#search').click(function(){
+    $('#search').click(function () {
 
         $('#income').html(loader)
         $('#total_transaksi').html(loader)
@@ -330,6 +519,61 @@ Dashboard
                 $('#income').text(`Rp. ${number_format(data.income,0)}`)
                 $('#total_transaksi').text(`${number_format(data.total_transaction,0)}`)
                 $('#total_produk').text(`${number_format(data.total_product,0)}`)
+                $('#total_produk_data').text(`${number_format(data.total_product_data,0)}`)
+                $('#produk_tersedia').text(`${number_format(data.total_product_tersedia,0)}`)
+                $('#produk_kosong').text(`${number_format(data.total_product_kosong,0)}`)
+            }
+        });
+    }
+
+    function tutup() {
+        $('#form-lihat').addClass('d-none')
+    }
+
+    function lihatTransaksi(id) {
+        $('#transaksi-loader').removeClass('d-none')
+        $('#form-lihat').addClass('d-none')
+        let id_transaksi = id
+        $.ajax({
+            url: `{{route("getTransaksi")}}`,
+            type: "POST",
+            dataType: "json",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: {
+                'id': id_transaksi,
+            },
+            statusCode: {
+                500: function (response) {
+                    console.log(response)
+                },
+            },
+            success: function (data) {
+                $('#transaksi-loader').addClass('d-none')
+                $('#form-lihat').removeClass('d-none')
+                $('#tabel_transaction').html('')
+                let html = ``
+                let total = 0
+                $('#pelanggan').html(data.data.pelanggan)
+                $('#tanggal_transaksi').html(data.data.tanggal)
+                $('#id_transaction').html(id_transaksi)
+
+                data.data.orders.forEach(item => {
+                    total += item.product.harga * item.qty
+                    html += `
+                    <tr>
+                        <td>${item.product.nama}</td>
+                        <td>${item.product.kategori}</td>
+                        <td>${item.product.tipe}</td>
+                        <td>${item.qty}</td>
+                        <td>Rp. ${number_format(item.product.harga,0)}</td>
+                    </tr>
+                    `
+                });
+                $('#tabel_transaction').html(html)
+                $('#total_harga').html(number_format(total, 0))
+                console.log(data)
             }
         });
     }
