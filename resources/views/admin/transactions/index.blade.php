@@ -242,10 +242,9 @@ Transaction
                                 <thead>
                                     <tr>
                                         <th>No. </th>
-                                        <th>Id</th>
                                         <th>Pelanggan</th>
                                         <th>Tanggal</th>
-                                        {{-- <th>Total Order</th> --}}
+                                        <th>Total Order</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -254,13 +253,12 @@ Transaction
                                     @if ($document->exists())
                                     <tr>
                                         <td>{{$key + 1}}</td>
-                                        <td>{{$document->id()}}</td>
                                         <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['pelanggan']}}
                                         </td>
                                         <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['tanggal']}}
                                         </td>
-                                        {{-- <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
-                                        </td> --}}
+                                        <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
+                                        </td>
                                         <td>
                                             <a class="btn btn-success" style="color: white"
                                                 onclick="lihatTransaksi('{{$document->id()}}')" data-toggle="modal"
