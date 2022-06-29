@@ -233,6 +233,66 @@ Transaction
                         </form>
                     </div>
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="card-body">
+                        <div class="dt-responsive">
+                            <table id="data_table" class="table scroll"
+                                style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'>
+                                <thead>
+                                    <tr>
+                                        <th>No. </th>
+                                        <th>Id</th>
+                                        <th>Pelanggan</th>
+                                        <th>Tanggal</th>
+                                        {{-- <th>Total Order</th> --}}
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body_tabel">
+                                    @foreach ($data as $key => $document)
+                                    @if ($document->exists())
+                                    <tr>
+                                        <td>{{$key + 1}}</td>
+                                        <td>{{$document->id()}}</td>
+                                        <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['pelanggan']}}
+                                        </td>
+                                        <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['tanggal']}}
+                                        </td>
+                                        {{-- <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
+                                        </td> --}}
+                                        <td>
+                                            <a class="btn btn-success" style="color: white"
+                                                onclick="lihatTransaksi('{{$document->id()}}')" data-toggle="modal"
+                                                data-target="#demoModal">Lihat</a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+</div>
+
+<div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="demoModalLabel">Detail Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-12">
                         <div id="transaksi-loader" class="row d-none"
@@ -299,65 +359,16 @@ Transaction
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row no-print">
-                                    <div class="col-11">
-                                    </div>
-                                    <div class="col-1">
-                                        <button type="button" onclick="tutup()" class="btn btn-secondary pull-right">
-                                            Tutup</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12">
-                    <div class="card-body">
-                        <div class="dt-responsive">
-                            <table id="data_table" class="table scroll"
-                                style='overflow:auto; width:100%;position:relative;padding-left:20px;padding-bottom:20px'>
-                                <thead>
-                                    <tr>
-                                        <th>No. </th>
-                                        <th>Id</th>
-                                        <th>Pelanggan</th>
-                                        <th>Tanggal</th>
-                                        {{-- <th>Total Order</th> --}}
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="body_tabel">
-                                    @foreach ($data as $key => $document)
-                                    @if ($document->exists())
-                                    <tr>
-                                        <td>{{$key + 1}}</td>
-                                        <td>{{$document->id()}}</td>
-                                        <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['pelanggan']}}
-                                        </td>
-                                        <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['tanggal']}}
-                                        </td>
-                                        {{-- <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
-                                        </td> --}}
-                                        <td>
-                                            <a class="btn btn-success" style="color: white"
-                                                onclick="lihatTransaksi('{{$document->id()}}')">Lihat</a>
-                                        </td>
-                                    </tr>
-                                    @endif
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
         </div>
-        <!-- /.box-body -->
     </div>
-    <!-- /.box -->
 </div>
 
 <!-- /.content-wrapper -->

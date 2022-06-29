@@ -181,6 +181,14 @@
             margin-right: 20px;
         }
 
+        @media (min-width: 576px)
+        {
+            .modal-dialog {
+            max-width: 900px;
+            }
+        }
+
+
     </style>
     @yield('header')
 
