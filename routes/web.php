@@ -22,7 +22,7 @@ Route::get('/', function () {
 });
 
 Route::get('/register', function () {
-    return redirect()->route('login');
+    return view('registration');
 });
 
 Route::middleware([
