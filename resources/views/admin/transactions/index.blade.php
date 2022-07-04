@@ -313,9 +313,9 @@ Transaction
                                         </address>
                                     </div>
                                     <div class="col-sm-4 invoice-col">
-                                        Kasir
+                                        Kasir :
                                         <address>
-                                            <strong>Kopi Letek</strong>
+                                            <strong id="kasir"></strong>
                                         </address>
                                     </div>
                                     <div class="col-sm-4 invoice-col">
@@ -383,6 +383,10 @@ Transaction
     function lihatTransaksi(id) {
         $('#transaksi-loader').removeClass('d-none')
         $('#form-lihat').addClass('d-none')
+        $('#pelanggan').html('')
+        $('#tanggal_transaksi').html('')
+        $('#id_transaction').html('')
+        $('#kasir').html('')
         let id_transaksi = id
         $.ajax({
             url: `{{route("getTransaksi")}}`,
@@ -408,6 +412,7 @@ Transaction
                 $('#pelanggan').html(data.data.pelanggan)
                 $('#tanggal_transaksi').html(data.data.tanggal)
                 $('#id_transaction').html(id_transaksi)
+                $('#kasir').html(data.data.kasir)
 
                 data.data.orders.forEach(item => {
                     total += item.product.harga * item.qty
