@@ -162,6 +162,8 @@ Transaction
 @endsection
 @section('content-wrapper')
 <!-- Content Wrapper. Contains page content -->
+<input type="hidden" id="kasir_hidden" value="{{$kasir}}">
+<input type="hidden" id="income_hidden" value="{{$income}}">
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
@@ -170,6 +172,23 @@ Transaction
                     <div class="col-md-12">
                         <form action="{{route('search')}}" method="POST">
                             @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>Kasir : </p>
+                                    <select class="form-control select2" name="kasir_select" id="kasir_select">
+                                        <option value="">Pilih Kasir</option>
+                                        @foreach ($kasir_data as $key => $document)
+                                        @if ($document->exists())
+                                        <option
+                                            value="{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['kasir']}}"
+                                            >
+                                            {{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['kasir']}}
+                                        </option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row" style="align-items: center;">
                                 <div class="col-md-6">
                                     <div class="form-inline">
@@ -213,6 +232,9 @@ Transaction
                                                 <div class="col">
                                                     <h6 class="mb-5 text-white">Total Income : </h6>
                                                     <h3 class="mb-0 fw-700 text-white" id="income">
+                                                        @if($income > 0)
+                                                        Rp. {{number_format($income,0)}}
+                                                        @else
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <div class="loader"
@@ -220,6 +242,7 @@ Transaction
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @endif
                                                     </h3>
                                                 </div>
                                                 <div class="col-auto">
@@ -242,6 +265,7 @@ Transaction
                                 <thead>
                                     <tr>
                                         <th>No. </th>
+                                        <th>Kasir</th>
                                         <th>Pelanggan</th>
                                         <th>Tanggal</th>
                                         <th>Total Order</th>
@@ -253,11 +277,14 @@ Transaction
                                     @if ($document->exists())
                                     <tr>
                                         <td>{{$key + 1}}</td>
+                                        <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['kasir']}}
+                                        </td>
                                         <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['pelanggan']}}
                                         </td>
                                         <td>{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['tanggal']}}
                                         </td>
-                                        <td>Rp. {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
+                                        <td>Rp.
+                                            {{number_format(app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['totalOrder'],0)}}
                                         </td>
                                         <td>
                                             <a class="btn btn-success" style="color: white"
@@ -442,6 +469,7 @@ Transaction
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             data: {
+                'kasir_select': $('#kasir_select').val(),
                 'from_date': $('#from_date').val(),
                 'to_date': $('#to_date').val(),
             },
@@ -462,7 +490,14 @@ Transaction
 
 <script>
     $(document).ready(function () {
-        getIncome()
+        console.log($('#kasir_hidden').val())
+        $("#kasir_select option").each(function () {
+            $(this).siblings('[value="' + this.value + '"]').remove();
+        });
+        // $('#kasir_select select option[value="' + $('#kasir_hidden').val() + '"]').attr("selected", "selected")
+        if($('#income_hidden').val() == 0){
+            getIncome()
+        }
     })
 
 </script>

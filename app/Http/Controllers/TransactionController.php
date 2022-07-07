@@ -17,9 +17,12 @@ class TransactionController extends Controller
     {
         $start = null;
         $end = null;
+        $kasir = '';
+        $income = 0;
         $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+        $kasir_data = app('firebase.firestore')->database()->collection('transactions')->documents();
 
-        return view('admin.transactions.index', compact('data', 'start', 'end'));
+        return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
     }
 
     /**
@@ -114,7 +117,29 @@ class TransactionController extends Controller
     {
         $start = $request->from_date;
         $end = $request->to_date;
-        if ($start == '' || $end == '') {
+        if ($request->kasir_select == '') {
+            if ($start == '' || $end == '') {
+                $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+                $income = 0;
+                foreach ($data as $d) {;
+                    $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                    foreach ($document['orders'] as $doc) {
+                        $income += $doc['qty'] * $doc['product']['harga'];
+                    }
+                }
+                return response()->json(['data' => $income], 200);
+            } else {
+                $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+                $income = 0;
+                foreach ($data as $d) {;
+                    $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                    foreach ($document['orders'] as $doc) {
+                        $income += $doc['qty'] * $doc['product']['harga'];
+                    }
+                }
+                return response()->json(['data' => $income], 200);
+            }
+        } else if ($start == '' && $end == '' && $request->kasir_select == '') {
             $data = app('firebase.firestore')->database()->collection('transactions')->documents();
             $income = 0;
             foreach ($data as $d) {;
@@ -125,7 +150,7 @@ class TransactionController extends Controller
             }
             return response()->json(['data' => $income], 200);
         } else {
-            $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+            $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->where('kasir', '=', $request->kasir_select)->documents();
             $income = 0;
             foreach ($data as $d) {;
                 $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
@@ -141,8 +166,59 @@ class TransactionController extends Controller
     {
         $start = $request->from_date;
         $end = $request->to_date;
-        $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
-
-        return view('admin.transactions.index', compact('data', 'start', 'end'));
+        $kasir = $request->kasir_select;
+        $kasir_data = app('firebase.firestore')->database()->collection('transactions')->documents();
+        $income = 0;
+        if ($kasir != '' && $start == '' || $end == '') {
+            if ($start == '' || $end == '') {
+                $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+                $income = 0;
+                foreach ($data as $d) {;
+                    $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                    foreach ($document['orders'] as $doc) {
+                        $income += $doc['qty'] * $doc['product']['harga'];
+                    }
+                }
+                return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
+            } else {
+                $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+                $income = 0;
+                foreach ($data as $d) {;
+                    $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                    foreach ($document['orders'] as $doc) {
+                        $income += $doc['qty'] * $doc['product']['harga'];
+                    }
+                }
+                return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
+            }
+        } else if ($start == '' && $end == '' && $kasir == '') {
+            $data = app('firebase.firestore')->database()->collection('transactions')->documents();
+            foreach ($data as $d) {;
+                $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                foreach ($document['orders'] as $doc) {
+                    $income += $doc['qty'] * $doc['product']['harga'];
+                }
+            }
+            return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
+        } else if ($kasir == '') {
+            $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->documents();
+            $income = 0;
+            foreach ($data as $d) {;
+                $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                foreach ($document['orders'] as $doc) {
+                    $income += $doc['qty'] * $doc['product']['harga'];
+                }
+            }
+            return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
+        } else {
+            $data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '>=', Carbon::parse($start)->format('d/m/Y'))->where('tanggal', '<=', Carbon::parse($end)->format('d/m/Y'))->where('kasir', '=', $kasir)->documents();
+            foreach ($data as $d) {;
+                $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+                foreach ($document['orders'] as $doc) {
+                    $income += $doc['qty'] * $doc['product']['harga'];
+                }
+            }
+            return view('admin.transactions.index', compact('data', 'start', 'end', 'kasir', 'kasir_data', 'income'));
+        }
     }
 }
