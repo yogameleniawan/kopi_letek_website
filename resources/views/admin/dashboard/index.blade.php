@@ -391,6 +391,24 @@ Dashboard
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Grafik Income</h3>
+            </div>
+            <div class="card-block text-center">
+                <div class="row" id="loader_grafik">
+                    <div class="col-md-12">
+                            <div class="loader" style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
+                            </div>
+                    </div>
+                </div>
+                <div id="line_chart" class="chart-shadow d-none" style="height:400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="demoModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -482,6 +500,122 @@ Dashboard
 @section('footer')
 <script src="{{url('assets/admin/js/datatables.js')}}"></script>
 <script src="{{ url('assets/admin/dynamictable/dynamitable.jquery.min.js') }}"></script>
+
+<script>
+    $(document).ready(function(){
+        let h1;
+        let h2;
+        let h3;
+        let h4;
+        let h5;
+        let h6;
+        let h7;
+
+
+        getGrafik();
+    })
+
+    function getGrafik() {
+            $.ajax({
+                url: `{{route("getGrafik")}}`,
+                type: "GET",
+                dataType: "json",
+                statusCode: {
+                    500: function (response) {
+                        console.log(response)
+                    },
+                },
+                success: function (data) {
+                    h1 = data.h1;
+                    h2 = data.h2;
+                    h3 = data.h3;
+                    h4 = data.h4;
+                    h5 = data.h5;
+                    h6 = data.h6;
+                    h7 = data.h7;
+
+                    $('#loader_grafik').addClass('d-none')
+                    $('#line_chart').removeClass('d-none')
+                    var chart = AmCharts.makeChart("line_chart", {
+                        "type": "serial",
+                        "theme": "light",
+                        "dataDateFormat": "YYYY-MM-DD",
+                        "precision": 2,
+                        "valueAxes": [{
+                            "id": "v1",
+                            "position": "left",
+                            "autoGridCount": false,
+                            "labelFunction": function(value) {
+                                return "$" + Math.round(value) + "M";
+                            }
+                        }, {
+                            "id": "v2",
+                            "gridAlpha": 0,
+                            "autoGridCount": false
+                        }],
+                        "graphs": [{
+                            "id": "g1",
+                            "valueAxis": "v2",
+                            "bullet": "round",
+                            "bulletBorderAlpha": 1,
+                            "bulletColor": "#FFFFFF",
+                            "bulletSize": 8,
+                            "hideBulletsCount": 50,
+                            "lineThickness": 3,
+                            "lineColor": "#2ed8b6",
+                            "title": "Income",
+                            "useLineColorForBulletBorder": true,
+                            "valueField": "market1",
+                            "balloonText": "[[title]]<br /><b style='font-size: 130%'>[[value]]</b>"
+                        }],
+                        "chartCursor": {
+                            "pan": true,
+                            "valueLineEnabled": true,
+                            "valueLineBalloonEnabled": true,
+                            "cursorAlpha": 0,
+                            "valueLineAlpha": 0.2
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "parseDates": true,
+                            "dashLength": 1,
+                            "minorGridEnabled": true
+                        },
+                        "legend": {
+                            "useGraphSettings": true,
+                            "position": "top"
+                        },
+                        "balloon": {
+                            "borderThickness": 1,
+                            "shadowAlpha": 0
+                        },
+                        "dataProvider": [{
+                            "date": h1.tanggal,
+                            "market1": h1.income,
+                        }, {
+                            "date": h2.tanggal,
+                            "market1": h2.income,
+                        }, {
+                            "date": h3.tanggal,
+                            "market1": h3.income,
+                        }, {
+                            "date": h4.tanggal,
+                            "market1": h4.income,
+                        }, {
+                            "date": h5.tanggal,
+                            "market1": h5.income,
+                        }, {
+                            "date": h6.tanggal,
+                            "market1": h6.income,
+                        }, {
+                            "date": h7.tanggal,
+                            "market1": h7.income,
+                        }]
+                    });
+                }
+            });
+        }
+</script>
 
 <script>
     let loader = `

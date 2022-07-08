@@ -319,9 +319,16 @@
     </script>
     <script src="{{url('assets/admin/plugins/d3/dist/d3.min.js')}}"></script>
     <script src="{{url('assets/admin/plugins/c3/c3.min.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/amcharts.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/gauge.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/serial.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/light.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/animate.min.js')}}"></script>
+    <script src="{{url('assets/admin/plugins/amcharts/pie.js')}}"></script>
 
     {{-- <script src="{{url('assets/admin/js/widgets.js')}}"></script> --}}
     <script src="{{url('assets/admin/js/charts.js')}}"></script>
+    {{-- <script src="{{url('assets/admin/js/chart-amcharts.js')}}"></script> --}}
     <script src="{{url('assets/admin/js/alerts.js')}}"></script>
     <script src="{{url('assets/admin/plugins/jquery-toast-plugin/dist/jquery.toast.min.js')}}"></script>
 
