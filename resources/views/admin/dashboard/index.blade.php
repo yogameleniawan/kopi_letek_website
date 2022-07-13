@@ -402,7 +402,7 @@ Dashboard
                     <div class="col-md-12">
                         <p>Kasir : </p>
                         <select class="form-control select2" name="kasir_select" id="kasir_select">
-                            <option value="">Semua Kasir</option>
+                            <option value="semua">Semua Kasir</option>
                             @foreach ($kasir_data as $key => $document)
                             @if ($document->exists())
                             <option
@@ -644,7 +644,11 @@ Dashboard
         $('#kasir_select').change(function(){
             $('#loader_grafik').removeClass('d-none')
             $('#line_chart').addClass('d-none')
-            getGrafikByKasir();
+            if($('#kasir_select').val() == 'semua'){
+                getGrafik();
+            }else{
+                getGrafikByKasir();
+            }
         })
 
         function getGrafikByKasir() {
