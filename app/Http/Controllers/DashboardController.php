@@ -399,4 +399,34 @@ class DashboardController extends Controller
             'h7' => $h7_object,
         ]);
     }
+
+    public function getIncomeKasir()
+    {
+        $kasir1 = app('firebase.firestore')->database()->collection('transactions')->where('kasir', '=', 'falle@gmail.com')->documents();
+        $kasir1_income = 0;
+        foreach ($kasir1 as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $kasir1_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $kasir1_object = (object)[
+            'email' => 'falle@gmail.com',
+            'income' => $kasir1_income,
+        ];
+
+        $kasir2 = app('firebase.firestore')->database()->collection('transactions')->where('kasir', '=', 'vero@gmail.com')->documents();
+        $kasir2_income = 0;
+        foreach ($kasir2 as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $kasir2_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $kasir2_object = (object)[
+            'email' => 'vero@gmail.com',
+            'income' => $kasir2_income,
+        ];
+        return response()->json(['kasir1' => $kasir1_object, 'kasir2' => $kasir2_object]);
+    }
 }
