@@ -642,6 +642,8 @@ Dashboard
         }
 
         $('#kasir_select').change(function(){
+            $('#loader_grafik').removeClass('d-none')
+            $('#line_chart').addClass('d-none')
             getGrafikByKasir();
         })
 
