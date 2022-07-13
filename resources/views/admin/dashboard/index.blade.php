@@ -398,8 +398,25 @@ Dashboard
                 <h3>Grafik Income</h3>
             </div>
             <div class="card-block text-center">
-                <div class="row" id="loader_grafik">
+                <div class="row">
                     <div class="col-md-12">
+                        <p>Kasir : </p>
+                        <select class="form-control select2" name="kasir_select" id="kasir_select">
+                            <option value="">Semua Kasir</option>
+                            @foreach ($kasir_data as $key => $document)
+                            @if ($document->exists())
+                            <option
+                                value="{{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['kasir']}}"
+                                >
+                                {{app('firebase.firestore')->database()->collection('transactions')->document($document->id())->snapshot()->data()['kasir']}}
+                            </option>
+                            @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-4" id="loader_grafik">
+                    <div class="col-md-12" style="text-align: -webkit-center;">
                             <div class="loader" style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
                             </div>
                     </div>
@@ -502,6 +519,15 @@ Dashboard
 <script src="{{ url('assets/admin/dynamictable/dynamitable.jquery.min.js') }}"></script>
 
 <script>
+    $(document).ready(function () {
+        console.log($('#kasir_hidden').val())
+        $("#kasir_select option").each(function () {
+            $(this).siblings('[value="' + this.value + '"]').remove();
+        });
+    })
+</script>
+
+<script>
     $(document).ready(function(){
         let h1;
         let h2;
@@ -511,7 +537,6 @@ Dashboard
         let h6;
         let h7;
 
-
         getGrafik();
     })
 
@@ -520,6 +545,117 @@ Dashboard
                 url: `{{route("getGrafik")}}`,
                 type: "GET",
                 dataType: "json",
+                statusCode: {
+                    500: function (response) {
+                        console.log(response)
+                    },
+                },
+                success: function (data) {
+                    h1 = data.h1;
+                    h2 = data.h2;
+                    h3 = data.h3;
+                    h4 = data.h4;
+                    h5 = data.h5;
+                    h6 = data.h6;
+                    h7 = data.h7;
+
+                    $('#loader_grafik').addClass('d-none')
+                    $('#line_chart').removeClass('d-none')
+                    var chart = AmCharts.makeChart("line_chart", {
+                        "type": "serial",
+                        "theme": "light",
+                        "dataDateFormat": "YYYY-MM-DD",
+                        "precision": 2,
+                        "valueAxes": [{
+                            "id": "v1",
+                            "position": "left",
+                            "autoGridCount": false,
+                            "labelFunction": function(value) {
+                                return "$" + Math.round(value) + "M";
+                            }
+                        }, {
+                            "id": "v2",
+                            "gridAlpha": 0,
+                            "autoGridCount": false
+                        }],
+                        "graphs": [{
+                            "id": "g1",
+                            "valueAxis": "v2",
+                            "bullet": "round",
+                            "bulletBorderAlpha": 1,
+                            "bulletColor": "#FFFFFF",
+                            "bulletSize": 8,
+                            "hideBulletsCount": 50,
+                            "lineThickness": 3,
+                            "lineColor": "#2ed8b6",
+                            "title": "Income",
+                            "useLineColorForBulletBorder": true,
+                            "valueField": "market1",
+                            "balloonText": "[[title]]<br /><b style='font-size: 130%'>[[value]]</b>"
+                        }],
+                        "chartCursor": {
+                            "pan": true,
+                            "valueLineEnabled": true,
+                            "valueLineBalloonEnabled": true,
+                            "cursorAlpha": 0,
+                            "valueLineAlpha": 0.2
+                        },
+                        "categoryField": "date",
+                        "categoryAxis": {
+                            "parseDates": true,
+                            "dashLength": 1,
+                            "minorGridEnabled": true
+                        },
+                        "legend": {
+                            "useGraphSettings": true,
+                            "position": "top"
+                        },
+                        "balloon": {
+                            "borderThickness": 1,
+                            "shadowAlpha": 0
+                        },
+                        "dataProvider": [{
+                            "date": h1.tanggal,
+                            "market1": h1.income,
+                        }, {
+                            "date": h2.tanggal,
+                            "market1": h2.income,
+                        }, {
+                            "date": h3.tanggal,
+                            "market1": h3.income,
+                        }, {
+                            "date": h4.tanggal,
+                            "market1": h4.income,
+                        }, {
+                            "date": h5.tanggal,
+                            "market1": h5.income,
+                        }, {
+                            "date": h6.tanggal,
+                            "market1": h6.income,
+                        }, {
+                            "date": h7.tanggal,
+                            "market1": h7.income,
+                        }]
+                    });
+                }
+            });
+        }
+
+        $('#kasir_select').change(function(){
+            getGrafikByKasir();
+        })
+
+        function getGrafikByKasir() {
+            $.ajax({
+                url: `{{route("getGrafikByKasir")}}`,
+                type: "POST",
+                dataType: "json",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    'kasir': $('#kasir_select').val(),
+                },
                 statusCode: {
                     500: function (response) {
                         console.log(response)

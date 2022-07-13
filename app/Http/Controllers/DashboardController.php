@@ -9,9 +9,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $kasir_data = app('firebase.firestore')->database()->collection('transactions')->documents();
         $transactions = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', Carbon::now()->format('d/m/Y'))->limit(5)->documents();
 
-        return view('admin.dashboard.index', compact('transactions'));
+        return view('admin.dashboard.index', compact('transactions', 'kasir_data'));
     }
 
 
@@ -240,6 +241,142 @@ class DashboardController extends Controller
         $h7_tanggal = $array[0];
         $h7 = $date_array[0];
         $h7_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h7)->documents();
+        $h7_income = 0;
+        foreach ($h7_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h7_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h7_object = (object)[
+            'tanggal' => $h7_tanggal,
+            'income' => $h7_income,
+        ];
+
+        return response()->json([
+            'h1' => $h1_object,
+            'h2' => $h2_object,
+            'h3' => $h3_object,
+            'h4' => $h4_object,
+            'h5' => $h5_object,
+            'h6' => $h6_object,
+            'h7' => $h7_object,
+        ]);
+    }
+
+    public function getGrafikByKasir(Request $request)
+    {
+        $array = array();
+
+        $j = 0;
+        while ($j < 7) {
+            $today = Carbon::today();
+            array_push($array, $today->subDays($j)->format('Y-m-d'));
+            $j++;
+        }
+
+        $date_array = array();
+
+        $i = 0;
+        while ($i < 7) {
+            $today = Carbon::today();
+            array_push($date_array, $today->subDays($i)->format('d/m/Y'));
+            $i++;
+        }
+
+        $h1_tanggal = $array[6];
+        $h1 = $date_array[6];
+        $h1_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h1)->where('kasir', '=', $request->kasir)->documents();
+        $h1_income = 0;
+        foreach ($h1_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h1_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h1_object = (object)[
+            'tanggal' => $h1_tanggal,
+            'income' => $h1_income,
+        ];
+
+        $h2_tanggal = $array[5];
+        $h2 = $date_array[5];
+        $h2_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h2)->where('kasir', '=', $request->kasir)->documents();
+        $h2_income = 0;
+        foreach ($h2_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h2_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h2_object = (object)[
+            'tanggal' => $h2_tanggal,
+            'income' => $h2_income,
+        ];
+
+        $h3_tanggal = $array[4];
+        $h3 = $date_array[4];
+        $h3_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h3)->where('kasir', '=', $request->kasir)->documents();
+        $h3_income = 0;
+        foreach ($h3_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h3_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h3_object = (object)[
+            'tanggal' => $h3_tanggal,
+            'income' => $h3_income,
+        ];
+
+        $h4_tanggal = $array[3];
+        $h4 = $date_array[3];
+        $h4_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h4)->where('kasir', '=', $request->kasir)->documents();
+        $h4_income = 0;
+        foreach ($h4_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h4_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h4_object = (object)[
+            'tanggal' => $h4_tanggal,
+            'income' => $h4_income,
+        ];
+
+        $h5_tanggal = $array[2];
+        $h5 = $date_array[2];
+        $h5_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h5)->where('kasir', '=', $request->kasir)->documents();
+        $h5_income = 0;
+        foreach ($h5_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h5_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h5_object = (object)[
+            'tanggal' => $h5_tanggal,
+            'income' => $h5_income,
+        ];
+
+        $h6_tanggal = $array[1];
+        $h6 = $date_array[1];
+        $h6_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h6)->where('kasir', '=', $request->kasir)->documents();
+        $h6_income = 0;
+        foreach ($h6_data as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $h6_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $h6_object = (object)[
+            'tanggal' => $h6_tanggal,
+            'income' => $h6_income,
+        ];
+
+        $h7_tanggal = $array[0];
+        $h7 = $date_array[0];
+        $h7_data = app('firebase.firestore')->database()->collection('transactions')->where('tanggal', '=', $h7)->where('kasir', '=', $request->kasir)->documents();
         $h7_income = 0;
         foreach ($h7_data as $d) {;
             $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();

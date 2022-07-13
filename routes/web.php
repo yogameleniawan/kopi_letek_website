@@ -43,3 +43,4 @@ Route::post('getTransaksi', [TransactionController::class, 'getTransaksi'])->nam
 Route::post('getIncome', [TransactionController::class, 'getIncome'])->name('getIncome');
 Route::post('getDataCard', [DashboardController::class, 'getDataCard'])->name('getDataCard');
 Route::get('getGrafik', [DashboardController::class, 'getGrafik'])->name('getGrafik');
+Route::post('getGrafikByKasir', [DashboardController::class, 'getGrafikByKasir'])->name('getGrafikByKasir');
