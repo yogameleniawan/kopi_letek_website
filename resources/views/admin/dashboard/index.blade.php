@@ -341,7 +341,7 @@ Dashboard
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <span class="badge badge-pill badge-success mb-1">Transaksi Terbaru</span>
@@ -390,20 +390,6 @@ Dashboard
             </div>
         </div>
     </div>
-    <div class="col-lg-4 col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h3>Income Kasir</h3>
-            </div>
-            <div class="card-block text-center">
-                <div id="kasir_loader_income" class="col-md-12" style="text-align: -webkit-center;">
-                    <div class="loader" style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
-                    </div>
-                </div>
-                <div id="bar_chart" class="chart-shadow d-none" style="height:400px"></div>
-            </div>
-        </div>
-    </div>
 </div>
 <div class="row">
     <div class="col-lg-12 col-xl-12">
@@ -436,6 +422,22 @@ Dashboard
                     </div>
                 </div>
                 <div id="line_chart" class="chart-shadow d-none" style="height:400px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Income Kasir</h3>
+            </div>
+            <div class="card-block text-center">
+                <div id="kasir_loader_income" class="col-md-12" style="text-align: -webkit-center;">
+                    <div class="loader" style="border-top: 5px solid #6c757d;width: 34px;height: 34px;">
+                    </div>
+                </div>
+                <div id="bar_chart" class="chart-shadow d-none" style="height:400px"></div>
             </div>
         </div>
     </div>
@@ -473,7 +475,7 @@ Dashboard
                                     <div class="col-sm-4 invoice-col">
                                         Kasir
                                         <address>
-                                            <strong>Kopi Letek</strong>
+                                            <strong id="kasir"></strong>
                                         </address>
                                     </div>
                                     <div class="col-sm-4 invoice-col">
@@ -558,6 +560,7 @@ Dashboard
                     },
                 },
                 success: function (data) {
+                    console.log(data)
                     $('#kasir_loader_income').addClass('d-none')
                     $('#bar_chart').removeClass('d-none')
                     var chart = AmCharts.makeChart("bar_chart", {
@@ -580,12 +583,12 @@ Dashboard
                     "graphs": [{
                         "id": "g3",
                         "valueAxis": "v1",
-                        "lineColor": "#2ed8b6",
-                        "fillColors": "#2ed8b6",
-                        "fillAlphas": 0.3,
+                        "lineColor": "#03a9f4",
+                        "fillColors": "#03a9f4",
+                        "fillAlphas": 1,
                         "type": "column",
                         "title": `${data.kasir1.email}`,
-                        "valueField": "sales2",
+                        "valueField": "sales1",
                         "columnWidth": 0.5,
                         "legendValueText": "Rp. [[value]]",
                         "balloonText": "[[title]]<br /><b style='font-size: 130%'>Rp. [[value]]</b>"
@@ -597,7 +600,43 @@ Dashboard
                         "fillAlphas": 1,
                         "type": "column",
                         "title": `${data.kasir2.email}`,
-                        "valueField": "sales1",
+                        "valueField": "sales2",
+                        "columnWidth": 0.5,
+                        "legendValueText": "Rp. [[value]]",
+                        "balloonText": "[[title]]<br /><b style='font-size: 130%'>Rp. [[value]]</b>"
+                    }, {
+                        "id": "g5",
+                        "valueAxis": "v1",
+                        "lineColor": "#fb6340",
+                        "fillColors": "#fb6340",
+                        "fillAlphas": 1,
+                        "type": "column",
+                        "title": `${data.kasir3.email}`,
+                        "valueField": "sales3",
+                        "columnWidth": 0.5,
+                        "legendValueText": "Rp. [[value]]",
+                        "balloonText": "[[title]]<br /><b style='font-size: 130%'>Rp. [[value]]</b>"
+                    }, {
+                        "id": "g6",
+                        "valueAxis": "v1",
+                        "lineColor": "#ffc107",
+                        "fillColors": "#ffc107",
+                        "fillAlphas": 1,
+                        "type": "column",
+                        "title": `${data.kasir4.email}`,
+                        "valueField": "sales4",
+                        "columnWidth": 0.5,
+                        "legendValueText": "Rp. [[value]]",
+                        "balloonText": "[[title]]<br /><b style='font-size: 130%'>Rp. [[value]]</b>"
+                    }, {
+                        "id": "g7",
+                        "valueAxis": "v1",
+                        "lineColor": "#4caf50",
+                        "fillColors": "#4caf50",
+                        "fillAlphas": 1,
+                        "type": "column",
+                        "title": `${data.kasir5.email}`,
+                        "valueField": "sales5",
                         "columnWidth": 0.5,
                         "legendValueText": "Rp. [[value]]",
                         "balloonText": "[[title]]<br /><b style='font-size: 130%'>Rp. [[value]]</b>"
@@ -625,8 +664,11 @@ Dashboard
                     },
                     "dataProvider": [{
                         "date": "",
-                        "sales1": `${data.kasir2.income}`,
-                        "sales2": `${data.kasir1.income}`,
+                        "sales1": `${data.kasir1.income}`,
+                        "sales2": `${data.kasir2.income}`,
+                        "sales3": `${data.kasir3.income}`,
+                        "sales4": `${data.kasir4.income}`,
+                        "sales5": `${data.kasir5.income}`,
                     }]
                 });
                 }
@@ -947,6 +989,7 @@ Dashboard
                 $('#pelanggan').html(data.data.pelanggan)
                 $('#tanggal_transaksi').html(data.data.tanggal)
                 $('#id_transaction').html(id_transaksi)
+                $('#kasir').html(data.data.kasir)
 
                 data.data.orders.forEach(item => {
                     total += item.product.harga * item.qty

@@ -427,6 +427,52 @@ class DashboardController extends Controller
             'email' => 'vero@gmail.com',
             'income' => $kasir2_income,
         ];
-        return response()->json(['kasir1' => $kasir1_object, 'kasir2' => $kasir2_object]);
+
+        $kasir3 = app('firebase.firestore')->database()->collection('transactions')->where('kasir', '=', 'dian@gmail.com')->documents();
+        $kasir3_income = 0;
+        foreach ($kasir3 as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $kasir3_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $kasir3_object = (object)[
+            'email' => 'dian@gmail.com',
+            'income' => $kasir3_income,
+        ];
+
+        $kasir4 = app('firebase.firestore')->database()->collection('transactions')->where('kasir', '=', 'anggi@gmail.com')->documents();
+        $kasir4_income = 0;
+        foreach ($kasir4 as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $kasir4_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $kasir4_object = (object)[
+            'email' => 'anggi@gmail.com',
+            'income' => $kasir4_income,
+        ];
+
+        $kasir5 = app('firebase.firestore')->database()->collection('transactions')->where('kasir', '=', 'yayak@gmail.com')->documents();
+        $kasir5_income = 0;
+        foreach ($kasir5 as $d) {;
+            $document = app('firebase.firestore')->database()->collection('transactions')->document($d->id())->snapshot()->data();
+            foreach ($document['orders'] as $doc) {
+                $kasir5_income += $doc['qty'] * $doc['product']['harga'];
+            }
+        }
+        $kasir5_object = (object)[
+            'email' => 'yayak@gmail.com',
+            'income' => $kasir5_income,
+        ];
+
+        return response()->json([
+            'kasir1' => $kasir1_object,
+            'kasir2' => $kasir2_object,
+            'kasir3' => $kasir3_object,
+            'kasir4' => $kasir4_object,
+            'kasir5' => $kasir5_object,
+        ]);
     }
 }
